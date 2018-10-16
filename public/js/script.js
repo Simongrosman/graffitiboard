@@ -37,10 +37,12 @@
                 formData.append("description", this.description);
                 formData.append("title", this.title);
                 formData.append("username", this.username);
+                var me = this;
                 axios
                     .post("/upload", formData)
                     .then(function(response) {
-                        me.images.unshift(response.data.image);
+                        me.images.unshift(response.data);
+                        console.log(me.images);
                     })
                     .catch(function() {
                         if (err) {

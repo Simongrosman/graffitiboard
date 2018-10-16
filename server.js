@@ -37,14 +37,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         req.body.username,
         req.body.title,
         req.body.description
-    );
-    // res.json;
-
-    // if (req.file) {
-    //     console.log(req.file);
-    // } else {
-    // console.log("err");
-    // }
+    ).then(data => res.json(data.rows[0]));
 });
 
 app.get("/imageboard", function(req, res) {

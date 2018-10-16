@@ -23,7 +23,7 @@ exports.insertNewPhoto = function insertNewPhoto(
     description
 ) {
     const q = `
-INSERT INTO images (url, username,title, description ) VALUES ($1, $2, $3, $4)`;
+INSERT INTO images (url, username,title, description ) VALUES ($1, $2, $3, $4) returning *`;
     const params = [url, username || null, title || null, description || null];
     return db.query(q, params);
 };
