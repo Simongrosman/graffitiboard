@@ -31,16 +31,26 @@
         },
         methods: {
             upload: function(e) {
-                console.log("upload called");
+                console.log("upload started");
                 var formData = new FormData();
                 formData.append("file", this.file);
-                formData.append("desc", this.description);
+                formData.append("description", this.description);
                 formData.append("title", this.title);
                 formData.append("username", this.username);
-                var me = this;
-                axios.post("/upload", formData);
-                console.log("uploaded ended");
+                axios
+                    .post("/upload", formData)
+                    .then(function(response) {
+                        me.images.unshift(response.data.image);
+                    })
+                    .catch(function() {
+                        if (err) {
+                            console.log("err: ", err);
+                        } else {
+                            console.log("else!");
+                        }
+                    });
             },
+
             handleFileChange: function(e) {
                 this.file = e.target.files[0];
             }

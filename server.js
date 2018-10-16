@@ -10,7 +10,8 @@ app.use(express.static("./public"));
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
-// const s3 = require("./s3");
+const s3 = require("./s3");
+const s3Url = require("./config.json");
 
 const diskStorage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -29,13 +30,21 @@ const uploader = multer({
         fileSize: 2097152
     }
 });
-//to add middlewere s3 + the
-app.post("/upload", uploader.single("file"), (req, res) => {
-    if (req.file) {
-        console.log(req.file);
-    } else {
-        console.log("err");
-    }
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    const imgUrl = s3Url.s3Url + req.file.filename;
+    db.insertNewPhoto(
+        imgUrl,
+        req.body.username,
+        req.body.title,
+        req.body.description
+    );
+    // res.json;
+
+    // if (req.file) {
+    //     console.log(req.file);
+    // } else {
+    // console.log("err");
+    // }
 });
 
 app.get("/imageboard", function(req, res) {
