@@ -31,3 +31,17 @@ INSERT INTO images (url, username,title, description ) VALUES ($1, $2, $3, $4) r
 exports.getPic = function getPic() {
     return db.query(`SELECT * FROM images`);
 };
+exports.getPicData = function getPicData(id) {
+    return db.query(`SELECT * FROM images WHERE id = $1`, [id]);
+};
+
+exports.insertNewComment = function insertNewComment(
+    comment,
+    username,
+    image_id
+) {
+    const q = `
+INSERT INTO images (comment, username,image_id) VALUES ($1, $2, $3) returning *`;
+    const params = [comment, username || null, image_id || null];
+    return db.query(q, params);
+};

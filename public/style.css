@@ -78,3 +78,19 @@ input {
 #uploadImg {
     margin: 20px;
 }
+
+#modal {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    top: 0px;
+    background-color: grey;
+    font-family: Freestyle Script;
+    font-size: 35px;
+}
+#modalphoto {
+    height: 50%;
+    width: 50%;
+    background-size: auto;
+}

@@ -19,15 +19,30 @@
         <label id='uploadlable' for="upload">Upload</label>
 
     </div>
+
+
      <div class='window' v-if="images.length">
                  <div class=imgContainer  v-for="image in images" >
-                    <img class='imgbox' :src = "image.url" > </img>
+                    <img  @click="getData(image.id)" class='imgbox' :src = "image.url" > </img>
                     <p>{{image.title}}</p>
                </div>
       </div>
+
+      <image-modal   v-if="imgid" :imgid="imgid"  ></image-modal>
 </div>
 
+<script type="text/x-template" id="image-modal">
+        <div  id= "modal" >
+            <img id='modalphoto' :src="imgdata.url">
+            <p>{{imgdata.title}}</p>
+            <p>{{imgdata.description}}</p>
+            <input type="text"  name="comments" placeholder="comments">
+            <input type="text"  name="username" placeholder="username">
+            <button  id='upload'></button>
+            <label id='uploadlable' for="uploadcomment">comment</label>
 
+        </div>
+    </script>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src="/js/script.js"></script>

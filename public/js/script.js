@@ -1,61 +1,89 @@
-(function() {
-    new Vue({
-        el: "#main",
-        data: {
-            images: [],
-            title: "",
-            description: "",
-            username: "",
-            file: ""
-        },
+// (function() {
+Vue.component("image-modal", {
+    data: function() {
+        return {
+            heading: "I <3 Funky Chicken",
+            imgdata: {}
+        };
+    },
+    props: ["imgid"],
+    template: "#image-modal",
+    mounted: function() {
+        // console.log("component has mounted");
+        var self = this;
+        axios
+            .post("/imagemodal", { imgid: self.imgid })
+            .then(function(response) {
+                self.imgdata = response.data.rows[0];
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+    },
+    methods: {
+        click: function() {
+            this.$emit("change", "I <3 EVERBODY");
+        }
+    }
+});
 
-        created: function() {
-            // console.log("created");
-        },
-        mounted: function() {
-            // console.log("mounted");
+new Vue({
+    el: "#main",
+    data: {
+        images: [],
+        title: "",
+        description: "",
+        username: "",
+        file: "",
+        imgid: ""
+    },
 
-            var self = this;
-
+    created: function() {
+        // console.log("created");
+    },
+    mounted: function() {
+        // console.log("mounted");
+        var self = this;
+        axios
+            .get("/imageboard")
+            .then(function(response) {
+                self.images = response.data;
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+    },
+    updated: function() {
+        // console.log("updated");
+    },
+    methods: {
+        upload: function(e) {
+            console.log("upload started");
+            var formData = new FormData();
+            formData.append("file", this.file);
+            formData.append("description", this.description);
+            formData.append("title", this.title);
+            formData.append("username", this.username);
+            var me = this;
             axios
-                .get("/imageboard")
+                .post("/upload", formData)
                 .then(function(response) {
-                    self.images = response.data;
+                    me.images.unshift(response.data);
                 })
-                .catch(function(err) {
-                    console.log(err);
+                .catch(function() {
+                    if (err) {
+                        console.log("err: ", err);
+                    } else {
+                        console.log("else!");
+                    }
                 });
         },
-        updated: function() {
-            // console.log("updated");
+        handleFileChange: function(e) {
+            this.file = e.target.files[0];
         },
-        methods: {
-            upload: function(e) {
-                console.log("upload started");
-                var formData = new FormData();
-                formData.append("file", this.file);
-                formData.append("description", this.description);
-                formData.append("title", this.title);
-                formData.append("username", this.username);
-                var me = this;
-                axios
-                    .post("/upload", formData)
-                    .then(function(response) {
-                        me.images.unshift(response.data);
-                        console.log(me.images);
-                    })
-                    .catch(function() {
-                        if (err) {
-                            console.log("err: ", err);
-                        } else {
-                            console.log("else!");
-                        }
-                    });
-            },
-
-            handleFileChange: function(e) {
-                this.file = e.target.files[0];
-            }
+        getData: function(img) {
+            this.imgid = img;
         }
-    });
-})();
+    }
+});
+// })();

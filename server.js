@@ -46,6 +46,12 @@ app.get("/imageboard", function(req, res) {
         .catch(err => console.log(err));
 });
 
+app.post("/imagemodal", function(req, res) {
+    db.getPicData(req.body.imgid)
+        .then(data => res.json(data))
+        .catch(err => console.log(err));
+});
+
 app.listen(process.env.PORT || 8080, () => {
     console.log("listening ...");
 });
