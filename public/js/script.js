@@ -1,32 +1,68 @@
 // (function() {
+/////////////////////////////VUE componant///////////////////////////////
 Vue.component("image-modal", {
     data: function() {
         return {
-            heading: "I <3 Funky Chicken",
-            imgdata: {}
+            imgdata: {},
+            comments: [],
+            newcomment: {
+                comment: "",
+                username: "",
+                imgid: this.imgid
+            }
         };
     },
     props: ["imgid"],
     template: "#image-modal",
     mounted: function() {
-        // console.log("component has mounted");
         var self = this;
         axios
             .post("/imagemodal", { imgid: self.imgid })
             .then(function(response) {
                 self.imgdata = response.data.rows[0];
             })
+            .then(function() {
+                axios
+                    .post("/commentsboard", { imgid: self.imgid })
+                    .then(function(response) {
+                        self.comments = response.data;
+                        console.log(response.data);
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+            })
             .catch(function(err) {
                 console.log(err);
             });
     },
     methods: {
-        click: function() {
-            this.$emit("change", "I <3 EVERBODY");
+        clickonmodal: function() {
+            this.$emit("close");
+        },
+        uploadcomment: function(e) {
+            var me = this;
+            axios
+                .post("/uploadcomment", {
+                    comment: me.newcomment.comment,
+                    username: me.newcomment.username,
+                    imgid: me.newcomment.imgid
+                })
+                .then(function(response) {
+                    me.comments.unshift(response.data);
+                    console.log();
+                })
+                .catch(function() {
+                    if (err) {
+                        console.log("err: ", err);
+                    } else {
+                        console.log("else!");
+                    }
+                });
         }
     }
 });
-
+/////////////////////////////VUE PARANT///////////////////////////////
 new Vue({
     el: "#main",
     data: {
@@ -38,11 +74,8 @@ new Vue({
         imgid: ""
     },
 
-    created: function() {
-        // console.log("created");
-    },
+    created: function() {},
     mounted: function() {
-        // console.log("mounted");
         var self = this;
         axios
             .get("/imageboard")
@@ -53,9 +86,7 @@ new Vue({
                 console.log(err);
             });
     },
-    updated: function() {
-        // console.log("updated");
-    },
+    updated: function() {},
     methods: {
         upload: function(e) {
             console.log("upload started");
@@ -83,6 +114,9 @@ new Vue({
         },
         getData: function(img) {
             this.imgid = img;
+        },
+        close: function() {
+            this.imgid = null;
         }
     }
 });

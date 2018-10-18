@@ -15,7 +15,14 @@
 #upload {
     display: none;
 }
-
+#uploadcomment {
+    display: none;
+}
+p {
+    margin-top: -5px;
+    margin-bottom: -5px;
+    margin-left: 10px;
+}
 input {
     height: 30px;
     font-size: 30px;
@@ -45,7 +52,6 @@ input {
     padding-right: 9px;
     padding-top: 3px;
     padding-bottom: 3px;
-
     cursor: pointer;
     background-color: white;
     font-family: Freestyle Script;
@@ -67,6 +73,7 @@ input {
 .imgbox {
     height: 300px;
     width: 400px;
+    cursor: pointer;
 }
 
 .window {
@@ -87,10 +94,10 @@ input {
     top: 0px;
     background-color: grey;
     font-family: Freestyle Script;
-    font-size: 35px;
+    font-size: 30px;
 }
 #modalphoto {
-    height: 50%;
-    width: 50%;
-    background-size: auto;
+    height: 10%;
+    width: 10%;
+    cursor: pointer;
 }

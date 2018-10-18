@@ -41,7 +41,19 @@ exports.insertNewComment = function insertNewComment(
     image_id
 ) {
     const q = `
-INSERT INTO images (comment, username,image_id) VALUES ($1, $2, $3) returning *`;
+INSERT INTO comments (comment, username,image_id) VALUES ($1, $2, $3) returning *`;
     const params = [comment, username || null, image_id || null];
     return db.query(q, params);
 };
+
+exports.getCommentData = function getCommentData(imgId) {
+    const q = `
+        SELECT * FROM comments
+        WHERE image_id = $1
+        ORDER BY id DESC
+    `;
+    const params = [imgId];
+
+    return db.query(q, params);
+};
+// exports.getCommentData(1).then(data => console.log(data.rows));

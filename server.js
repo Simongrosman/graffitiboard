@@ -51,6 +51,18 @@ app.post("/imagemodal", function(req, res) {
         .then(data => res.json(data))
         .catch(err => console.log(err));
 });
+app.post("/uploadcomment", (req, res) => {
+    db.insertNewComment(
+        req.body.comment,
+        req.body.username,
+        req.body.imgid
+    ).then(data => res.json(data.rows[0]));
+});
+app.post("/commentsboard", function(req, res) {
+    db.getCommentData(req.body.imgid)
+        .then(data => res.json(data.rows))
+        .catch(err => console.log(err));
+});
 
 app.listen(process.env.PORT || 8080, () => {
     console.log("listening ...");
