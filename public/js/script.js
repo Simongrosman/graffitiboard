@@ -71,22 +71,30 @@ new Vue({
         description: "",
         username: "",
         file: "",
-        imgid: ""
+        imgid: location.hash.slice(1),
+        hash: "",
+        hasMore: true
     },
-
     created: function() {},
     mounted: function() {
         var self = this;
-        axios
-            .get("/imageboard")
+        axios.get("/imageboard")
             .then(function(response) {
-                self.images = response.data;
+            self.images = response.data;
             })
             .catch(function(err) {
                 console.log(err);
-            });
+            })
+        var me = this;
+        addEventListener('hashchange', function () {
+            me.imageId
+        })
+        this.getImage()
     },
-    updated: function() {},
+    watch: {
+        self.getImage()
+    },
+    },
     methods: {
         upload: function(e) {
             console.log("upload started");
@@ -117,7 +125,23 @@ new Vue({
         },
         close: function() {
             this.imgid = null;
+        },
+        getMoreImages: function() {
+            var instance = this;
+            axios
+                .get("/images/more", {
+                    params: {
+                        id: instance.images[instance.images.length - 1].id
+                    }
+                })
+                .then(function(response) {
+                    instance.images = instance.images.concat(
+                        response.data.rows
+                    );
+                    if (instance.images[instance.images.length - 1].id == 1) {
+                        instance.hasMore = false;
+                    }
+                });
         }
     }
 });
-// })();

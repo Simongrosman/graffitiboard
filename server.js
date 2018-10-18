@@ -23,7 +23,6 @@ const diskStorage = multer.diskStorage({
         });
     }
 });
-
 const uploader = multer({
     storage: diskStorage,
     limits: {
@@ -39,13 +38,11 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         req.body.description
     ).then(data => res.json(data.rows[0]));
 });
-
 app.get("/imageboard", function(req, res) {
-    db.getPic()
+    db.getPics()
         .then(data => res.json(data.rows))
         .catch(err => console.log(err));
 });
-
 app.post("/imagemodal", function(req, res) {
     db.getPicData(req.body.imgid)
         .then(data => res.json(data))
@@ -59,9 +56,12 @@ app.post("/uploadcomment", (req, res) => {
     ).then(data => res.json(data.rows[0]));
 });
 app.post("/commentsboard", function(req, res) {
-    db.getCommentData(req.body.imgid)
+    db.getComments(req.body.imgid)
         .then(data => res.json(data.rows))
         .catch(err => console.log(err));
+});
+app.get("/images/more", function(req, res) {
+    db.getMoreImages(req.query.id).then(data => res.json(data));
 });
 
 app.listen(process.env.PORT || 8080, () => {

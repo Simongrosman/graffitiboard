@@ -28,8 +28,12 @@ INSERT INTO images (url, username,title, description ) VALUES ($1, $2, $3, $4) r
     return db.query(q, params);
 };
 
-exports.getPic = function getPic() {
-    return db.query(`SELECT * FROM images`);
+exports.getPics = function getPics() {
+    return db.query(`
+        SELECT * FROM images
+        ORDER BY id DESC
+        Limit 3
+        `);
 };
 exports.getPicData = function getPicData(id) {
     return db.query(`SELECT * FROM images WHERE id = $1`, [id]);
@@ -46,7 +50,7 @@ INSERT INTO comments (comment, username,image_id) VALUES ($1, $2, $3) returning 
     return db.query(q, params);
 };
 
-exports.getCommentData = function getCommentData(imgId) {
+exports.getComments = function getComments(imgId) {
     const q = `
         SELECT * FROM comments
         WHERE image_id = $1
@@ -56,4 +60,12 @@ exports.getCommentData = function getCommentData(imgId) {
 
     return db.query(q, params);
 };
-// exports.getCommentData(1).then(data => console.log(data.rows));
+exports.getMoreImages = function getMoreImages(id) {
+    return db.query(
+        `SELECT * FROM images
+        WHERE id < $1
+        ORDER BY id DESC
+        LIMIT 3`,
+        [id]
+    );
+};

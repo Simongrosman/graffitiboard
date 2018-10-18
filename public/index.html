@@ -16,7 +16,8 @@
         <label id='filelable'for="file">Choose a file</label>
         <button  id='upload' @click="upload"></button>
         <label id='uploadlable' for="upload">Upload</label>
-
+<!-- <a :href="# + image.id" ></a>
+<a :href="# + next" v-if="next">-></a> -->
     </div>
      <div class='window' v-if="images.length">
                  <div class=imgContainer  v-for="image in images" >
@@ -24,6 +25,9 @@
                     <p>{{image.title}}</p>
                </div>
       </div>
+      <button  id='getMoreImages'v-if='hasMore' @click="getMoreImages">MORE!</button>
+      <label v-if='hasMore' id='uploadlable' for="getMoreImages">MORE!</label>
+
 
 
 <!-- ////////////////////////////////MODAL///////////////////////////// -->
@@ -42,17 +46,10 @@
 
             <div id='commentsWindow'>comments:
                 <div class=CommentContainer v-for="comment in comments">
-                    <p>{{comment.comment}}</p>
-                   <p>{{comment.username}}</p>
+                    <p>{{comment.comment}}</p><p>{{comment.username}}</p><p>{{comment.created_at}}</p>
             </div>
         </div>
         </div>
-
-
-
-
-
-
     </script>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
