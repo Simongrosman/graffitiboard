@@ -2,31 +2,20 @@
     font-family: Freestyle Script;
     font-size: 60px;
     margin: 20px;
+    transition: font-size 3s;
 }
+#title:hover {
+    font-size: 200px;
+}
+
 #minititle {
     font-family: Freestyle Script;
     font-size: 40px;
     margin: 20px;
 }
-#uploadImg {
+/* //////////////////uploadbar//////////// */
+#uploadBar {
     margin: 20px;
-}
-#file {
-    display: none;
-}
-#upload {
-    display: none;
-}
-#uploadcomment {
-    display: none;
-}
-#getMoreImages {
-    display: none;
-}
-p {
-    margin-top: -5px;
-    margin-bottom: -5px;
-    margin-left: 10px;
 }
 input {
     height: 30px;
@@ -37,7 +26,15 @@ input {
     padding: 6px;
     margin: 10px;
 }
-#filelable {
+
+#file,
+#upload,
+#uploadcomment,
+#getMoreImages {
+    display: none;
+}
+#filelable,
+#uploadlable {
     border: 1px solid darkgrey;
     font-size: 30px;
     color: rgb(117, 117, 117);
@@ -50,30 +47,18 @@ input {
     padding-top: 3px;
     padding-bottom: 3px;
 }
-#uploadlable {
-    font-size: 30px;
-    color: rgb(117, 117, 117);
-    padding-left: 9px;
-    padding-right: 9px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    cursor: pointer;
-    background-color: white;
-    font-family: Freestyle Script;
-    border: 1px solid rgb(166, 166, 166);
-    margin: 10px;
-}
-
-.imgbox {
-    height: 300px;
-    width: 400px;
-    cursor: pointer;
-}
+/* /////////////////photos//////////// */
+/* #main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+} */
 
 .window {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    /* justify-content: center; */
 }
 .imgContainer {
     border: 1px solid rgb(166, 166, 166);
@@ -85,7 +70,38 @@ input {
     font-family: Freestyle Script;
     font-size: 40px;
     color: rgb(117, 117, 117);
+    transition: font-size 5s;
 }
+.imgContainer:hover {
+    border: 4px solid rgb(77, 123, 159);
+    margin: 17px;
+}
+.imgbox {
+    height: 300px;
+    width: 400px;
+    cursor: pointer;
+}
+.imgtitle {
+    padding: 15px;
+}
+#getMoreImageslable {
+    position: fixed;
+    right: 50%;
+    border: 1px solid darkgrey;
+    font-size: 30px;
+    color: rgb(117, 117, 117);
+    background-color: white;
+    font-family: Freestyle Script;
+    cursor: pointer;
+    margin: 10px;
+    /* padding-left: 10;
+    padding-right: 10;
+    padding-top: 3px;
+    padding-bottom: 3px; */
+    padding: 10px;
+}
+
+/* /////////////////////////MODAL/////////////////// */
 
 #modal {
     position: fixed;
@@ -96,9 +112,22 @@ input {
     background-color: grey;
     font-family: Freestyle Script;
     font-size: 30px;
+    opacity: 0.5;
+}
+.modalbackround {
+    left: 20%;
+    bottom: 20%;
+    right: 20%;
+    top: 20%;
 }
 #modalphoto {
     height: 60%;
     width: 60%;
     cursor: pointer;
+}
+
+p {
+    margin-top: -5px;
+    margin-bottom: -5px;
+    margin-left: 10px;
 }

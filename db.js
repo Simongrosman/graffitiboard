@@ -32,7 +32,7 @@ exports.getPics = function getPics() {
     return db.query(`
         SELECT * FROM images
         ORDER BY id DESC
-        Limit 3
+        Limit 4
         `);
 };
 exports.getPicData = function getPicData(id) {
@@ -65,7 +65,7 @@ exports.getMoreImages = function getMoreImages(id) {
         `SELECT * FROM images
         WHERE id < $1
         ORDER BY id DESC
-        LIMIT 3`,
+        LIMIT 4`,
         [id]
     );
 };

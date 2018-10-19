@@ -14,6 +14,29 @@ Vue.component("image-modal", {
     },
     props: ["imgid"],
     template: "#image-modal",
+    watch: {
+        imgid: function() {
+            var self = this;
+            axios
+                .post("/imagemodal", { imgid: self.imgid })
+                .then(function(response) {
+                    self.imgdata = response.data.rows[0];
+                })
+                .then(function() {
+                    axios
+                        .post("/commentsboard", { imgid: self.imgid })
+                        .then(function(response) {
+                            self.comments = response.data;
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        }
+    },
     mounted: function() {
         var self = this;
         axios
@@ -26,7 +49,6 @@ Vue.component("image-modal", {
                     .post("/commentsboard", { imgid: self.imgid })
                     .then(function(response) {
                         self.comments = response.data;
-                        console.log(response.data);
                     })
                     .catch(function(err) {
                         console.log(err);
@@ -78,23 +100,21 @@ new Vue({
     created: function() {},
     mounted: function() {
         var self = this;
-        axios.get("/imageboard")
+        addEventListener("hashchange", function() {
+            if (location.hash != "#null") {
+                self.imgid = location.hash.slice(1);
+            }
+        });
+        axios
+            .get("/imageboard")
             .then(function(response) {
-            self.images = response.data;
+                self.images = response.data;
             })
             .catch(function(err) {
                 console.log(err);
-            })
-        var me = this;
-        addEventListener('hashchange', function () {
-            me.imageId
-        })
-        this.getImage()
+            });
     },
-    watch: {
-        self.getImage()
-    },
-    },
+
     methods: {
         upload: function(e) {
             console.log("upload started");
@@ -122,9 +142,11 @@ new Vue({
         },
         getData: function(img) {
             this.imgid = img;
+            location.hash = img;
         },
         close: function() {
             this.imgid = null;
+            location.hash = "";
         },
         getMoreImages: function() {
             var instance = this;
