@@ -46,7 +46,15 @@ input {
     padding-right: 9px;
     padding-top: 3px;
     padding-bottom: 3px;
+    border-radius: 90;
+    margin: 7px;
 }
+#filelable:hover,
+#uploadlable:hover {
+    border: 3px solid rgb(77, 123, 159);
+    margin: 5px;
+}
+
 /* /////////////////photos//////////// */
 /* #main {
     display: flex;
@@ -85,7 +93,7 @@ input {
     padding: 15px;
 }
 #getMoreImageslable {
-    position: fixed;
+    position: absolute;
     right: 50%;
     border: 1px solid darkgrey;
     font-size: 30px;
@@ -93,12 +101,13 @@ input {
     background-color: white;
     font-family: Freestyle Script;
     cursor: pointer;
-    margin: 10px;
-    /* padding-left: 10;
-    padding-right: 10;
-    padding-top: 3px;
-    padding-bottom: 3px; */
+    /* margin: 10px; */
     padding: 10px;
+}
+
+#getMoreImageslable:hover {
+    border: 3px solid rgb(77, 123, 159);
+    /* margin: 8px; */
 }
 
 /* /////////////////////////MODAL/////////////////// */
@@ -109,21 +118,35 @@ input {
     bottom: 0px;
     right: 0px;
     top: 0px;
-    background-color: grey;
-    font-family: Freestyle Script;
-    font-size: 30px;
-    opacity: 0.5;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 .modalbackround {
-    left: 20%;
-    bottom: 20%;
-    right: 20%;
-    top: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    transition: 0.5s;
+    background-color: rgba(0, 0, 0, 0.8);
+    font-family: Freestyle Script;
+    font-size: 25px;
+    padding-top: 20px;
 }
+
+#comments {
+    display: inline;
+    margin-top: -30px;
+    padding-top: -20px;
+}
+
 #modalphoto {
-    height: 60%;
-    width: 60%;
+    height: 45%;
+    width: 35%;
     cursor: pointer;
+    /* padding-top: 20px; */
+}
+.CommentContainer {
+    padding: 10px;
+    color: white;
 }
 
 p {

@@ -26,30 +26,35 @@
       <button  id='getMoreImages'v-if='hasMore' @click="getMoreImages">MORE!</button>
       <label v-if='hasMore' id='getMoreImageslable' for="getMoreImages">MORE!</label>
 
-
-
 <!-- ////////////////////////////////MODAL///////////////////////////// -->
       <image-modal v-if="imgid" :imgid="imgid" @close = 'close'></image-modal>
 </div>
 <script type="text/x-template" id="image-modal">
         <div id= "modal" >
             <div class="modalbackround">
-
-
             <img @click="clickonmodal" id='modalphoto' :src="imgdata.url">
             <!-- <a :href="# + image.id" ></a>
             <a :href="# + next" v-if="next">-></a> -->
-            <p> {{imgdata.title}}</p>
-            <p>{{imgdata.description}}</p>
-            <p>uploaded by {{imgdata.username}} on {{imgdata.created_at}} </p>
+
+            <p class="comment"> {{imgdata.title}}</p>
+            <p class="comment">{{imgdata.description}}</p>
+            <p class="comment">uploaded by {{imgdata.username}} on {{imgdata.created_at}} </p>
+
+            <div id='comments'>
+
             <input type="text" v-model="newcomment.comment"  name="comment" placeholder="comment">
             <input type="text"  v-model="newcomment.username" name="username" placeholder="username">
             <button  id='uploadcomment' @click="uploadcomment" ></button>
             <label id='uploadlable' for="uploadcomment">comment</label>
 
+        </div>
+
+        <div id='commentsbox'>
             <div id='commentsWindow'>comments:
                 <div class=CommentContainer v-for="comment in comments">
-                    <p>{{comment.comment}}</p><p>{{comment.username}}</p><p>{{comment.created_at}}</p>
+                    <p>{{comment.comment}}</p><p>{{comment.username}}</p><p>{{comment.created_at}}</p><br>
+                </div>
+
             </div>
         </div>
         </div>
