@@ -12,6 +12,7 @@ const uidSafe = require("uid-safe");
 const path = require("path");
 const s3 = require("./s3");
 const s3Url = require("./config.json");
+const moment = require("moment");
 
 const diskStorage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -45,7 +46,12 @@ app.get("/imageboard", function(req, res) {
 });
 app.post("/imagemodal", function(req, res) {
     db.getPicData(req.body.imgid)
-        .then(data => res.json(data))
+        .then(data => {
+            data.rows[0].created_at = moment(data.rows[0].created_at).format(
+                "MMMM Do YYYY, HH:mm:ss a"
+            );
+            res.json(data.rows);
+        })
         .catch(err => console.log(err));
 });
 app.post("/uploadcomment", (req, res) => {
@@ -53,13 +59,27 @@ app.post("/uploadcomment", (req, res) => {
         req.body.comment,
         req.body.username,
         req.body.imgid
-    ).then(data => res.json(data.rows[0]));
+    ).then(data => {
+        data.rows[0].created_at = moment(data.rows[0].created_at).format(
+            "MMMM Do YYYY, HH:mm:ss a"
+        );
+        res.json(data.rows[0]);
+    });
 });
+
 app.post("/commentsboard", function(req, res) {
     db.getComments(req.body.imgid)
-        .then(data => res.json(data.rows))
+        .then(data => {
+            data.rows.forEach(elem => {
+                elem.created_at = moment(elem.created_at).format(
+                    "MMMM Do YYYY, HH:mm:ss a"
+                );
+            });
+            res.json(data.rows);
+        })
         .catch(err => console.log(err));
 });
+
 app.get("/images/more", function(req, res) {
     db.getMoreImages(req.query.id).then(data => res.json(data));
 });

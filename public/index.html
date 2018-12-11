@@ -3,6 +3,7 @@
 <head>
     <link href="/style.css" rel="stylesheet">
     <title>Berlin's StreetArt</title>
+    <link href="https://fonts.googleapis.com/css?family=News+Cycle" rel="stylesheet">
 </head>
 <body>
     <h1 id='title' >Berlin's StreetArt</h1>
@@ -18,8 +19,8 @@
         <label id='uploadlable' for="upload">Upload</label>
     </div>
      <div class='window' v-if="images.length">
-                 <div class=imgContainer  v-for="image in images" >
-                    <img class='imgbox' @click="getData(image.id)" :src = "image.url" > </img>
+                 <div class=imgContainer @click="getData(image.id)"  v-for="image in images" >
+                    <img class='imgbox'  :src = "image.url" > </img>
                     <p class = 'imgtitle'>{{image.title}}</p>
                </div>
       </div>
@@ -32,31 +33,40 @@
 <script type="text/x-template" id="image-modal">
         <div id= "modal" >
             <div class="modalbackround">
-            <img @click="clickonmodal" id='modalphoto' :src="imgdata.url">
+                <div class="left">
+                    <img   id='modalphoto' :src="imgdata.url">
             <!-- <a :href="# + image.id" ></a>
             <a :href="# + next" v-if="next">-></a> -->
-
-            <p class="comment"> {{imgdata.title}}</p>
-            <p class="comment">{{imgdata.description}}</p>
-            <p class="comment">uploaded by {{imgdata.username}} on {{imgdata.created_at}} </p>
-
-            <div id='comments'>
-
-            <input type="text" v-model="newcomment.comment"  name="comment" placeholder="comment">
-            <input type="text"  v-model="newcomment.username" name="username" placeholder="username">
-            <button  id='uploadcomment' @click="uploadcomment" ></button>
-            <label id='uploadlable' for="uploadcomment">comment</label>
-
-        </div>
-
-        <div id='commentsbox'>
-            <div id='commentsWindow'>comments:
-                <div class=CommentContainer v-for="comment in comments">
-                    <p>{{comment.comment}}</p><p>{{comment.username}}</p><p>{{comment.created_at}}</p><br>
+                        <p class="title"> {{imgdata.title}}</p>
+                        <p class="description">{{imgdata.description}}</p>
+                        <p class="uploader">uploaded by {{imgdata.username}} on {{imgdata.created_at}} </p>
                 </div>
+                <div class="topright">
+                    <div id='x' @click="clickonmodal"> X
+                    </div>
+                <div class="right">
 
+                    <div id='commentsinput'> Add a comment
+
+                        <input id='commentsinput2' type="text"  v-model="newcomment.username" name="username" placeholder="username">
+                        <input id='commentsinput2' type="text" v-model="newcomment.comment"  name="comment" placeholder="comment">
+                        <button  id='uploadcomment' @click="uploadcomment" ></button>
+                        <label id='uploadlable' for="uploadcomment">submit</label>
+                    </div>
+
+                    <div class="commentscontainer">
+                        <div class=CommentContainer v-for="comment in comments">
+                            <div class="commentfirst">
+                            <p class='username'>{{comment.username}}</p>
+                            <p class= 'comment'>{{comment.comment}}</p>
+                            </div>
+
+                            <p class='date'>{{comment.created_at}}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+
         </div>
         </div>
     </script>

@@ -42,7 +42,8 @@ Vue.component("image-modal", {
         axios
             .post("/imagemodal", { imgid: self.imgid })
             .then(function(response) {
-                self.imgdata = response.data.rows[0];
+                console.log(response.data[0]);
+                self.imgdata = response.data[0];
             })
             .then(function() {
                 axios
@@ -72,7 +73,8 @@ Vue.component("image-modal", {
                 })
                 .then(function(response) {
                     me.comments.unshift(response.data);
-                    console.log();
+                    me.newcomment.comment = "";
+                    me.newcomment.username = "";
                 })
                 .catch(function() {
                     if (err) {
